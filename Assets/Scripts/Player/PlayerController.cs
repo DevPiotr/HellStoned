@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace HellStoned.Player
 {
@@ -17,18 +16,21 @@ namespace HellStoned.Player
 
         private bool isGrounded;
 
-        private void OnCollisionStay ()
-        {     
-            isGrounded = true;      
-        }
 
         private void OnCollisionEnter (Collision collision)
         {
-            
+            if(collision.collider.tag == "Walkable")
+            {
+                isGrounded = true;
+            }
             if(collision.collider.tag == "CanabisLeaf")
             {
                 Destroy(collision.collider.gameObject);
                 Debug.Log("Zebrałeś ziele");
+            }
+            if(collision.collider.tag == "Finish")
+            {
+                SceneManager.LoadScene(1);
             }
         }
 
