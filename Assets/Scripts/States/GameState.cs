@@ -1,54 +1,27 @@
-﻿using HellStoned.Core;
-using HellStoned.UI;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace HellStoned.State {
-    public class GameState : BaseState, IGameState {
+namespace Test.State{
 
-        private UIGameViewController uiGameViewController;
+    public class GameState : BaseState{
 
-        private float time = 1;
-        private int score = 0;
-
-
-        public override void InitState(GameController controller)
+    	public override void InitState(Test.Core.GameController controller)
         {
             base.InitState(controller);
-            Debug.LogWarning("GameState:: init");
-
-            uiGameViewController = controller._UIRootController._UIGameViewController;
-            uiGameViewController.gameObject.SetActive(true);   
+            Debug.LogWarning("GameState :: Im in game Init");
         }
 
-        public override void UpdateState(GameController controller)
+        public override void UpdateState(Test.Core.GameController controller)
         {
-            time += Time.deltaTime;
-            UpdateTimer(time);
-            UpdateStonedBar(-0.001f);
-
-            
+            base.UpdateState(controller);
+            Debug.LogWarning("GameState :: Im in game Update");
         }
 
-        public override void DeinitState(GameController controller)
+        public override void DeinitState(Test.Core.GameController controller)
         {
-            base.InitState(controller);
-            Debug.LogWarning("GameState::deinit");
+            base.DeinitState(controller);
+            Debug.LogWarning("GameState :: Im in game Deinit");
         }
-
-        public void UpdateTimer(float time)
-        {
-            uiGameViewController.Timer.text = time.ToString("#.##");
-        }
-
-        public void UpdateStonedBar(float value)
-        {
-            uiGameViewController.StonedBar.value += value;
-        }
-
-        public void UpdateScore(int score)
-        {
-            uiGameViewController.Score.text = score.ToString();
-        }
-
     }
 }

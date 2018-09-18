@@ -1,58 +1,31 @@
-﻿using UnityEngine;
-using HellStoned.Core;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Test.Core;
 
-namespace HellStoned.State
-{
-    public class MenuState : BaseState, IMenuState
-    {
-        private GameController controller;
+namespace Test.State{
 
-        public override void InitState(GameController controller)
+    public class MenuState : BaseState {
+
+        public IMenuListener listener;
+
+    	public override void InitState(Test.Core.GameController controller)
         {
             base.InitState(controller);
-            Debug.LogWarning("MenuState ::Init");
-
-           
-            controller._UIRootController._UIMainMenuController.listener = this;
-            this.controller = controller;
-
-            controller._UIRootController._UIMainMenuController.gameObject.SetActive(true);
+            Debug.LogWarning("MenuState :: Im in menu Init");
         }
 
-        public override void UpdateState(GameController controller)
+        public override void UpdateState(Test.Core.GameController controller)
         {
             base.UpdateState(controller);
-            Debug.LogWarning("MenuState ::Update");
+            Debug.LogWarning("MenuState :: Im in menu Update");
         }
 
-        public override void DeinitState(GameController controller)
+        public override void DeinitState(Test.Core.GameController controller)
         {
             base.DeinitState(controller);
-            Debug.LogWarning("MenuState ::Deinit");
-            controller._UIRootController._UIMainMenuController.gameObject.SetActive(false);
+            Debug.LogWarning("MenuState :: Im in menu Deinit");
+            listener.OnDeinitState();
         }
-
-        #region IMenuState implementation
-        public void OnPlayButton()
-        {
-            controller.StartGameState();    
-        }
-
-        public void OnHighScoreButton()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnCreditsButton()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnQuitButton()
-        {
-            controller.QuitGame();
-        }
-
-        #endregion
     }
 }

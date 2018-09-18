@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using HellStoned.Core;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Test.Core;
 
-namespace HellStoned.State
-{
-    public class BaseState : IState<GameController>
-    {
+namespace Test.State{
+
+    public class BaseState : IState<GameController> {
+        
         #region IState implementation
 
         public virtual void InitState(GameController controller)
@@ -22,5 +24,8 @@ namespace HellStoned.State
             Debug.Log("BaseState :: Deinit state");
         }
         #endregion
+        
+        
+
     }
 }
