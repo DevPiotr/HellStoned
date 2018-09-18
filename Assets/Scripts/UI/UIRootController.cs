@@ -11,6 +11,10 @@ namespace HellStoned.UI {
         private UIGameViewController _uiGameViewController;
         public UIGameViewController _UIGameViewController { get { return this._uiGameViewController; } }
 
+        [SerializeField]
+        private UIPauseViewController _uiPauseViewController;
+        public UIPauseViewController _UIPauseViewController { get { return this._uiPauseViewController; } }
+
         public IGameController listener;
     }
 }

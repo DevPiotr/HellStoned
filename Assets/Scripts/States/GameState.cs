@@ -14,8 +14,9 @@ namespace HellStoned.State {
         {
             base.InitState(controller);
             Debug.LogWarning("GameState:: init");
-
+      
             uiGameViewController = controller._UIRootController._UIGameViewController;
+            Cursor.lockState = CursorLockMode.Locked;
             uiGameViewController.gameObject.SetActive(true);   
         }
 
@@ -23,13 +24,20 @@ namespace HellStoned.State {
         {
             time += Time.deltaTime;
             UpdateTimer(time);
-            UpdateStonedBar(-0.001f);      
+            UpdateStonedBar(-0.001f);
+
+            if (Input.GetKeyDown("escape"))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                controller.StartPauseState();
+            }
         }
 
         public override void DeinitState(GameController controller)
         {
             base.InitState(controller);
             Debug.LogWarning("GameState::deinit");
+            uiGameViewController.gameObject.SetActive(false);
         }
 
         public void UpdateTimer(float time)

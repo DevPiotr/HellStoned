@@ -49,6 +49,10 @@ namespace HellStoned.Player
             {
                 
             }
+            if(collision.collider.tag == "Traps")
+            {
+                Debug.LogWarning("PlayerController:: U Died");
+            }
             
         }
 
@@ -60,7 +64,6 @@ namespace HellStoned.Player
         // Update is called once per frame
         void Update()
         {
-
                 //Moving
                 float translation = Input.GetAxis("Vertical") * speed;
                 float straffe = Input.GetAxis("Horizontal") * speed;
@@ -69,21 +72,13 @@ namespace HellStoned.Player
 
                 transform.Translate(straffe, 0, translation);
 
-                //KeyListening
-                if (Input.GetKeyDown("escape"))
-                {
-                    Cursor.lockState = CursorLockMode.None;
-                    Time.timeScale = 0.0f;
-                }
+                //KeyListening    
 
                 if (Input.GetKeyDown("space") && isGrounded)
                 {
                     isGrounded = false;
                     rigidbody.AddForce(jump * jumpForce, ForceMode.Impulse);
                 }
-               
-            
-
         }
     }
 }

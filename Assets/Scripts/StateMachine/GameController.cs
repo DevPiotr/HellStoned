@@ -36,23 +36,39 @@ namespace HellStoned.Core
         }
 
         #region IGameController implementation
-        public void StartMenuState()
+        public void StartMenuState ()
         {
+            if(currentMap != null)
+            {
+                Destroy(currentMap);
+                currentLevel = 0;
+            }
             var state = new MenuState();         
             ChangeState(state);
         }
 
-        public void StartGameState()
+        public void StartGameState ()
         {
             var state = new GameState();
             currentMap = Instantiate(levels[currentLevel]);
             currentLevel++;
-            playerRigidbody.useGravity = true;
-            Cursor.lockState = CursorLockMode.Locked;
+            playerRigidbody.useGravity = true;           
+            Time.timeScale = 1f;
+
             ChangeState(state);
         }
-        
-        public void QuitGame()
+
+        public void StartPauseState ()
+        {
+            var state = new PauseState();
+            ChangeState(state);
+        }
+        public void ResumeGameState()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QuitGame ()
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -87,6 +103,8 @@ namespace HellStoned.Core
         {
             currentState.UpdateState(this);
         }
+
+
         #endregion
 
 
