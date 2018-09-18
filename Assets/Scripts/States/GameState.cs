@@ -1,27 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HellStoned.Core;
+using HellStoned.UI;
 using UnityEngine;
 
-namespace Test.State{
+namespace HellStoned.State {
+    public class GameState : BaseState, IGameState {
 
-    public class GameState : BaseState{
+        private UIGameViewController uiGameViewController;
 
-    	public override void InitState(Test.Core.GameController controller)
+        private float time = 1;
+
+
+        public override void InitState(GameController controller)
         {
             base.InitState(controller);
-            Debug.LogWarning("GameState :: Im in game Init");
+            Debug.LogWarning("GameState:: init");
+
+            uiGameViewController = controller._UIRootController._UIGameViewController;
+            uiGameViewController.gameObject.SetActive(true);   
         }
 
-        public override void UpdateState(Test.Core.GameController controller)
+        public override void UpdateState(GameController controller)
         {
-            base.UpdateState(controller);
-            Debug.LogWarning("GameState :: Im in game Update");
+            time += Time.deltaTime;
+            UpdateTimer(time);
+            UpdateStonedBar(-0.001f);      
         }
 
-        public override void DeinitState(Test.Core.GameController controller)
+        public override void DeinitState(GameController controller)
         {
-            base.DeinitState(controller);
-            Debug.LogWarning("GameState :: Im in game Deinit");
+            base.InitState(controller);
+            Debug.LogWarning("GameState::deinit");
+        }
+
+        public void UpdateTimer(float time)
+        {
+            uiGameViewController.Timer.text = time.ToString("#.##");
+        }
+
+        public void UpdateStonedBar(float value)
+        {
+            uiGameViewController.StonedBar.value += value;
         }
     }
 }

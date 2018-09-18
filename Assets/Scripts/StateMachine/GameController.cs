@@ -1,68 +1,94 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using Test.State;
+using HellStoned.State;
+using HellStoned.UI;
 
-namespace Test.Core{
+namespace HellStoned.Core
+{
+    public class GameController : MonoBehaviour, IStateMachine<GameController>, IGameController
+    {
 
-    public class GameController : MonoBehaviour, IStateMachine<GameController>, IMenuListener {
+        [SerializeField]
+        private GameObject[] levels;
+        public GameObject[] Levels { get { return this.levels; } }
 
-        public IState<GameController> currentState;
+        [SerializeField]
+        private UIRootController _uiRootController;
+        public UIRootController _UIRootController { get { return this._uiRootController; } }
 
-        void Update(){
-            UpdateState();
-        }
+        [SerializeField]
+        private Rigidbody playerRigidbody;
+        public Rigidbody PlayerRigidbody { get { return this.playerRigidbody; } }
 
-        void Start(){
+        private IState<GameController> currentState;
+        private int currentLevel = 0;
+        private GameObject currentMap;
+
+        private void Start()
+        {
+            _uiRootController.listener = this;
             StartMenuState();
-            StartCoroutine(WaitForChange());
         }
-              
-        #region IStateMachine implementation
 
+        private void Update()
+        {
+            UpdateState();    
+        }
+
+        #region IGameController implementation
+        public void StartMenuState()
+        {
+            var state = new MenuState();         
+            ChangeState(state);
+        }
+
+        public void StartGameState()
+        {
+            var state = new GameState();
+            currentMap = Instantiate(levels[currentLevel]);
+            currentLevel++;
+            playerRigidbody.useGravity = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            ChangeState(state);
+        }
+        
+        public void QuitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
+        public void ChangeLevel()
+        {
+
+        }
+        #endregion
+       
+        #region IStateMachine implementation
         public void ChangeState(IState<GameController> newState)
         {
-            if(currentState != null){
+            if(currentState != null)
+            {
                 currentState.DeinitState(this);
             }
 
             currentState = newState;
 
-            if(currentState != null){
+            if(currentState != null)
+            {
                 currentState.InitState(this);
             }
         }
-
+        
         public void UpdateState()
         {
             currentState.UpdateState(this);
         }
-
         #endregion
 
-        private void StartGameState(){
-            var gameState = new GameState();
-            ChangeState(gameState);
-        }
 
-        private void StartMenuState(){
-            var menuState = new MenuState();
-            menuState.listener = this;
-            ChangeState(menuState);
-        }
-
-        IEnumerator WaitForChange(){
-            yield return new WaitForSeconds(3f);
-            StartGameState();
-        }
-
-        #region IMenuListener implementation
-
-        public void OnDeinitState()
-        {
-            Debug.LogError("GameController :: Menu state got deinited");
-        }
-
-        #endregion
     }
 }

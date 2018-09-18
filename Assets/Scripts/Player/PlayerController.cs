@@ -16,6 +16,7 @@ namespace HellStoned.Player
         private UIRootController uiRoot;
         public UIRootController UIRoot { get { return this.uiRoot; } }
 
+        private int score = 0;
 
         public float speed = 10.0f;
 
@@ -40,9 +41,9 @@ namespace HellStoned.Player
                 Destroy(collision.collider.gameObject);
                 Debug.Log("Zebrałeś ziele");
 
-               // uiRoot.GameView.UpdateStonedBar(0.5f);
-                //score += 20;
-               // uiRoot.GameView.UpdateScore(score);
+               uiRoot._UIGameViewController.StonedBar.value += 0.5f;
+               score += 20;
+                uiRoot._UIGameViewController.Score.text = score.ToString();
             }
             if(collision.collider.tag == "Finish")
             {

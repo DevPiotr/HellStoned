@@ -4,6 +4,5 @@
     {
         void UpdateTimer(float time);
         void UpdateStonedBar(float value);
-        void UpdateScore(int score);
     }
 }

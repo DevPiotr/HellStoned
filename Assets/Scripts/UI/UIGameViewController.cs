@@ -18,7 +18,6 @@ namespace HellStoned.UI
         [SerializeField]
         private Slider stonedBar;
         public Slider StonedBar { get { return this.stonedBar; } }
-
-        
+       
     }
 }
