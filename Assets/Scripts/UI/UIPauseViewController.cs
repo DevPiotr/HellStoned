@@ -5,15 +5,15 @@ namespace HellStoned.UI
 {
     public class UIPauseViewController : MonoBehaviour
     {
-        public IPauseState listener;
+        public IGameState listener;
 
-        public void onResumeButtonClick()
+        public void OnResumeButtonClick()
         {
-            listener.onResumeButton();
+            listener.OnResumeButton();
         }
-        public void onQuitButtonClick()
+        public void OnQuitButtonClick()
         {
-            listener.onQuitButton();
+            listener.OnQuitButton();
         }
     }
 }

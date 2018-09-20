@@ -5,7 +5,6 @@ namespace HellStoned.UI
 {
     public class UIGameViewController : MonoBehaviour
     {
-        public IGameState listener;
 
         [SerializeField]
         private Text score;

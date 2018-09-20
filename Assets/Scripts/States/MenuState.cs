@@ -14,6 +14,9 @@ namespace HellStoned.State
 
            
             controller._UIRootController._UIMainMenuController.listener = this;
+            controller._UIRootController._UIHighScoreController.listener = this;
+            controller._UIRootController._UICreditsController.listener = this;
+
             this.controller = controller;
 
             controller._UIRootController._UIMainMenuController.gameObject.SetActive(true);
@@ -40,19 +43,33 @@ namespace HellStoned.State
 
         public void OnHighScoreButton()
         {
-            throw new System.NotImplementedException();
+            controller._UIRootController._UIMainMenuController.gameObject.SetActive(false);
+            controller._UIRootController._UIHighScoreController.gameObject.SetActive(true);
         }
+
 
         public void OnCreditsButton()
         {
-            throw new System.NotImplementedException();
+            controller._UIRootController._UIMainMenuController.gameObject.SetActive(false);
+            controller._UIRootController._UICreditsController.gameObject.SetActive(true);
         }
 
+
+        public void OnHighScoreBackButton()
+        {
+            controller._UIRootController._UIHighScoreController.gameObject.SetActive(false);
+            controller._UIRootController._UIMainMenuController.gameObject.SetActive(true);       
+        }
+
+        public void OnCreditsBackButton()
+        {
+            controller._UIRootController._UICreditsController.gameObject.SetActive(false);
+            controller._UIRootController._UIMainMenuController.gameObject.SetActive(true);
+        }
         public void OnQuitButton()
         {
             controller.QuitGame();
         }
-
         #endregion
     }
 }

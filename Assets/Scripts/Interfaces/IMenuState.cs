@@ -6,6 +6,7 @@
         void OnHighScoreButton();
         void OnCreditsButton();
         void OnQuitButton();
-
+        void OnHighScoreBackButton();
+        void OnCreditsBackButton();
     }
 }

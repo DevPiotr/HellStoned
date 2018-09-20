@@ -1,7 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using HellStoned.Player;
 using HellStoned.State;
 using HellStoned.UI;
+using UnityEngine;
 
 namespace HellStoned.Core
 {
@@ -17,11 +17,17 @@ namespace HellStoned.Core
         public UIRootController _UIRootController { get { return this._uiRootController; } }
 
         [SerializeField]
-        private Rigidbody playerRigidbody;
-        public Rigidbody PlayerRigidbody { get { return this.playerRigidbody; } }
+        private PlayerController _playerController;
+        public PlayerController _PlayerController { get { return this._playerController; } }
+
+        [SerializeField]
+        private AudioStorageController _audioStorageController;
+        public AudioStorageController _AudioStorageController { get { return this._audioStorageController; } }
+
+        public int currentLevel = 0;
+        public int endGameScore;
 
         private IState<GameController> currentState;
-        private int currentLevel = 0;
         private GameObject currentMap;
 
         private void Start()
@@ -43,6 +49,7 @@ namespace HellStoned.Core
                 Destroy(currentMap);
                 currentLevel = 0;
             }
+            _playerController._Rigidbody.useGravity = false;
             var state = new MenuState();         
             ChangeState(state);
         }
@@ -51,22 +58,12 @@ namespace HellStoned.Core
         {
             var state = new GameState();
             currentMap = Instantiate(levels[currentLevel]);
-            currentLevel++;
-            playerRigidbody.useGravity = true;           
+            
+            _playerController._Rigidbody.useGravity = true;
             Time.timeScale = 1f;
-
             ChangeState(state);
         }
 
-        public void StartPauseState ()
-        {
-            var state = new PauseState();
-            ChangeState(state);
-        }
-        public void ResumeGameState()
-        {
-            throw new NotImplementedException();
-        }
 
         public void QuitGame ()
         {
@@ -80,9 +77,38 @@ namespace HellStoned.Core
         public void ChangeLevel()
         {
 
+                currentLevel++;
+
+                _playerController.transform.position = Vector3.forward;
+                _playerController.isLevelChanging = true;
+
+                _playerController._Rigidbody.useGravity = false;
+                
+                Destroy(currentMap);
+                currentMap = Instantiate(levels[currentLevel]);
+                _playerController._Rigidbody.useGravity = true;
+           
         }
+
+        public void WinAGame()
+        {
+            /*
+            if (PlayerPrefs.HasKey("Score1"))
+            {
+            
+            }
+            else if(PlayerPrefs.HasKey("Score1") && PlayerPrefs.HasKey("Score2"))
+            {
+            }
+            else if(PlayerPrefs.HasKey("Score1") && PlayerPrefs.HasKey("Score2") && PlayerPrefs.HasKey("Score3"))
+            {
+
+            }
+            */
+        }
+
         #endregion
-       
+
         #region IStateMachine implementation
         public void ChangeState(IState<GameController> newState)
         {

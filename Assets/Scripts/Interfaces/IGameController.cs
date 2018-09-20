@@ -5,10 +5,8 @@ namespace HellStoned.Core
     {
         void StartMenuState();
         void StartGameState();
-        void ResumeGameState();
-        void StartPauseState();
         void ChangeLevel();
         void QuitGame();
-
+        void WinAGame();
     }
 }
