@@ -24,7 +24,9 @@ namespace HellStoned.Core
         private AudioStorageController _audioStorageController;
         public AudioStorageController _AudioStorageController { get { return this._audioStorageController; } }
 
+        [HideInInspector]
         public int currentLevel = 0;
+        [HideInInspector]
         public int endGameScore;
 
         private IState<GameController> currentState;

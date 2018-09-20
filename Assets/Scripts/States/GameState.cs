@@ -140,6 +140,10 @@ namespace HellStoned.State {
         {
             controller._AudioStorageController.Jump.Play();
         }
+        public void PlayGettingHitSound()
+        {
+            controller._AudioStorageController.GettingHit.Play();
+        }
         #endregion
 
     }

@@ -88,6 +88,7 @@ namespace HellStoned.Player
 
                 if (canGetHit)
                 {
+                    listener.PlayGettingHitSound();
                     listener.OnTrapEnter();
                     canGetHit = false;
                 }

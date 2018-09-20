@@ -8,5 +8,6 @@
         void ChangeStonedBarValue(float value);
         void PlayPickUpSound();
         void PlayJumpSound();
+        void PlayGettingHitSound();
     }
 }
