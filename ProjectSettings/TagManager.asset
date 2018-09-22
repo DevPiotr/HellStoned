@@ -7,6 +7,7 @@ TagManager:
   - Walkable
   - CanabisLeaf
   - Traps
+  - GameFinish
   layers:
   - Default
   - TransparentFX

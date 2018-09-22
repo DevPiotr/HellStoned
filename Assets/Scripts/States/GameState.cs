@@ -38,15 +38,15 @@ namespace HellStoned.State {
             {
                 time += Time.deltaTime;
                 UpdateTimer(time);
-                UpdateStonedBar(-0.06f * Time.deltaTime);
-
+                UpdateStonedBar(-0.04f * Time.deltaTime);
 
                 if (uiGameViewController.StonedBar.value <= 0)
                 {
-                    controller.QuitGame();
+                    controller.StartMenuState();
                 }
                 if (Input.GetKeyDown("escape"))
                 {
+
                     Cursor.lockState = CursorLockMode.None;
                     isPaused = true;
                     Time.timeScale = 0.0f;
@@ -98,22 +98,13 @@ namespace HellStoned.State {
         #region IPlayerController implementation
         public void OnPortalEnter()
         {
-            if (controller.currentLevel != controller.Levels.Length - 1)
-            {
-
                 uiGameViewController.StonedBar.maxValue += 0.2f;
                 uiGameViewController.StonedBar.value = uiGameViewController.StonedBar.maxValue;
 
                 ChangeScore((int)Mathf.Round(1000f / time));
                 time = 1;
       
-                controller.ChangeLevel();
-            }
-            else
-            {
-                controller.endGameScore = int.Parse(uiGameViewController.Score.text);
-                controller.WinAGame();
-            }
+                controller.ChangeLevel();         
         }
 
         public void OnTrapEnter()
@@ -143,6 +134,13 @@ namespace HellStoned.State {
         public void PlayGettingHitSound()
         {
             controller._AudioStorageController.GettingHit.Play();
+        }
+        public void OnEndPortalEnter()
+        {
+            ChangeScore((int)Mathf.Round(1000f / time));
+            controller.endGameScore = int.Parse(uiGameViewController.Score.text);
+            controller.checkAndChangeHighScore = true;
+            controller.WinAGame();
         }
         #endregion
 

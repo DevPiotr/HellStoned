@@ -1,6 +1,8 @@
 ﻿using HellStoned.Player;
 using HellStoned.State;
 using HellStoned.UI;
+using HellStoned.Data;
+
 using UnityEngine;
 
 namespace HellStoned.Core
@@ -24,10 +26,17 @@ namespace HellStoned.Core
         private AudioStorageController _audioStorageController;
         public AudioStorageController _AudioStorageController { get { return this._audioStorageController; } }
 
+        [SerializeField]
+        private DataStorage _dataStorage;
+        public DataStorage _DataStorage { get { return this._dataStorage; } }
+
         [HideInInspector]
         public int currentLevel = 0;
         [HideInInspector]
         public int endGameScore;
+        [HideInInspector]
+        public bool checkAndChangeHighScore = true;
+
 
         private IState<GameController> currentState;
         private GameObject currentMap;
@@ -42,7 +51,19 @@ namespace HellStoned.Core
         {
             UpdateState();    
         }
-
+        //
+        private void Awake()
+        {
+            if (!PlayerPrefs.HasKey("HighScores"))
+            {
+                PlayerPrefs.SetString("HighScores", JsonUtility.ToJson(_dataStorage._GlobalHighScores));
+            }
+            else
+            {
+               _dataStorage.setScores(JsonUtility.FromJson<GlobalHighScores>(PlayerPrefs.GetString("HighScores")));       
+            }
+        }
+        //
         #region IGameController implementation
         public void StartMenuState ()
         {
@@ -51,7 +72,10 @@ namespace HellStoned.Core
                 Destroy(currentMap);
                 currentLevel = 0;
             }
+            _playerController.isLevelChanging = true;
             _playerController._Rigidbody.useGravity = false;
+            _playerController.isPaused = true;
+
             var state = new MenuState();         
             ChangeState(state);
         }
@@ -60,7 +84,8 @@ namespace HellStoned.Core
         {
             var state = new GameState();
             currentMap = Instantiate(levels[currentLevel]);
-            
+
+            _playerController.transform.position = new Vector3(0, 0, 0);
             _playerController._Rigidbody.useGravity = true;
             Time.timeScale = 1f;
             ChangeState(state);
@@ -69,6 +94,7 @@ namespace HellStoned.Core
 
         public void QuitGame ()
         {
+            _dataStorage.SaveData();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -78,10 +104,9 @@ namespace HellStoned.Core
 
         public void ChangeLevel()
         {
-
                 currentLevel++;
 
-                _playerController.transform.position = Vector3.forward;
+                _playerController.transform.position = new Vector3(0, 0, 0);
                 _playerController.isLevelChanging = true;
 
                 _playerController._Rigidbody.useGravity = false;
@@ -94,19 +119,14 @@ namespace HellStoned.Core
 
         public void WinAGame()
         {
-            /*
-            if (PlayerPrefs.HasKey("Score1"))
-            {
-            
-            }
-            else if(PlayerPrefs.HasKey("Score1") && PlayerPrefs.HasKey("Score2"))
-            {
-            }
-            else if(PlayerPrefs.HasKey("Score1") && PlayerPrefs.HasKey("Score2") && PlayerPrefs.HasKey("Score3"))
-            {
 
-            }
-            */
+            _playerController._Rigidbody.useGravity = false;
+            _playerController.isPaused = true;
+
+            _dataStorage.CheckScore(endGameScore);
+            currentLevel = 0;   
+           
+            StartMenuState();
         }
 
         #endregion

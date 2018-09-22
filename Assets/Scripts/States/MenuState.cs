@@ -9,16 +9,22 @@ namespace HellStoned.State
 
         public override void InitState(GameController controller)
         {
+            Cursor.lockState = CursorLockMode.None;
+
             base.InitState(controller);
             Debug.LogWarning("MenuState ::Init");
-
-           
+            
             controller._UIRootController._UIMainMenuController.listener = this;
             controller._UIRootController._UIHighScoreController.listener = this;
             controller._UIRootController._UICreditsController.listener = this;
 
             this.controller = controller;
 
+            if (controller.checkAndChangeHighScore)
+            {
+                setHighScoreData();
+                controller.checkAndChangeHighScore = false;
+            }
             controller._UIRootController._UIMainMenuController.gameObject.SetActive(true);
         }
 
@@ -54,6 +60,12 @@ namespace HellStoned.State
             controller._UIRootController._UICreditsController.gameObject.SetActive(true);
         }
 
+        public void setHighScoreData()
+        {
+            controller._UIRootController._UIHighScoreController.Scores[0].SetText(controller._DataStorage._GlobalHighScores.Scores[0].ToString());
+            controller._UIRootController._UIHighScoreController.Scores[1].SetText(controller._DataStorage._GlobalHighScores.Scores[1].ToString());
+            controller._UIRootController._UIHighScoreController.Scores[2].SetText(controller._DataStorage._GlobalHighScores.Scores[2].ToString());
+        }
 
         public void OnHighScoreBackButton()
         {
@@ -70,6 +82,7 @@ namespace HellStoned.State
         {
             controller.QuitGame();
         }
+
         #endregion
     }
 }

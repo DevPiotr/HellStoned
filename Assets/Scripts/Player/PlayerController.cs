@@ -82,7 +82,11 @@ namespace HellStoned.Player
             {
                 listener.OnPortalEnter();
             }
-            if(collision.collider.tag == "Traps")
+            if (collision.collider.tag == "GameFinish")
+            {
+                listener.OnEndPortalEnter();
+            }
+            if (collision.collider.tag == "Traps")
             {
                 Debug.LogWarning("PlayerController:: U Died");
 

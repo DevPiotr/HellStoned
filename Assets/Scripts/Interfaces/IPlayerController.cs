@@ -4,6 +4,8 @@
 
         void OnPortalEnter();
         void OnTrapEnter();
+        void OnEndPortalEnter();
+
         void ChangeScore(int score);
         void ChangeStonedBarValue(float value);
         void PlayPickUpSound();
