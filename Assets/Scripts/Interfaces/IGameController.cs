@@ -8,5 +8,6 @@ namespace HellStoned.Core
         void ChangeLevel();
         void QuitGame();
         void WinAGame();
+        void LoseAGame();
     }
 }

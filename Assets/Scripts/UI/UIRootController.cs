@@ -23,6 +23,22 @@ namespace HellStoned.UI {
         private UICreditsController _uiCreditsController;
         public UICreditsController _UICreditsController { get { return this._uiCreditsController; } }
 
+        [SerializeField]
+        private UIWinGameViewController _uiWinGameViewController;
+        public UIWinGameViewController _UIWinGameViewController { get { return this._uiWinGameViewController; } }
+
+        [SerializeField]
+        private UILoseGameViewController _uiLoseGameViewControler;
+        public UILoseGameViewController _UILoseGameViewController { get { return this._uiLoseGameViewControler; } }
+
+        [SerializeField]
+        private UITutorialController _uiTutorialControler;
+        public UITutorialController _UITutorialControler { get { return this._uiTutorialControler; } }
+
+        [SerializeField]
+        private UIGameHistoryViewController _uiGameHistoryViewController;
+        public UIGameHistoryViewController _UIGameHistoryViewController { get { return this._uiGameHistoryViewController; } }
+
         public IGameController listener;
     }
 }

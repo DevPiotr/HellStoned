@@ -11,5 +11,9 @@
         void PlayPickUpSound();
         void PlayJumpSound();
         void PlayGettingHitSound();
+
+        void SetAndShowTutorialText(TutorialTrigger trigger);
     }
 }
+
+public enum TutorialTrigger { Canabis, Traps, EndLevel };

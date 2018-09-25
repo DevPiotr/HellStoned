@@ -35,7 +35,17 @@ namespace HellStoned.Core
         [HideInInspector]
         public int endGameScore;
         [HideInInspector]
+        public float globalTimer;
+        [HideInInspector]
         public bool checkAndChangeHighScore = true;
+        [HideInInspector]
+        public bool isGameWon = false;
+        [HideInInspector]
+        public bool isGameLost = false;
+        [HideInInspector]
+        public bool isFirstStart = true;
+        
+
 
 
         private IState<GameController> currentState;
@@ -51,7 +61,7 @@ namespace HellStoned.Core
         {
             UpdateState();    
         }
-        //
+
         private void Awake()
         {
             if (!PlayerPrefs.HasKey("HighScores"))
@@ -60,10 +70,10 @@ namespace HellStoned.Core
             }
             else
             {
-               _dataStorage.setScores(JsonUtility.FromJson<GlobalHighScores>(PlayerPrefs.GetString("HighScores")));       
+               _dataStorage.SetScores(JsonUtility.FromJson<GlobalHighScores>(PlayerPrefs.GetString("HighScores")));       
             }
         }
-        //
+        
         #region IGameController implementation
         public void StartMenuState ()
         {
@@ -88,6 +98,7 @@ namespace HellStoned.Core
             _playerController.transform.position = new Vector3(0, 0, 0);
             _playerController._Rigidbody.useGravity = true;
             Time.timeScale = 1f;
+            
             ChangeState(state);
         }
 
@@ -122,13 +133,19 @@ namespace HellStoned.Core
 
             _playerController._Rigidbody.useGravity = false;
             _playerController.isPaused = true;
-
+  
             _dataStorage.CheckScore(endGameScore);
-            currentLevel = 0;   
-           
+            currentLevel = 0;
+
+            isGameWon = true;
             StartMenuState();
         }
 
+        public void LoseAGame()
+        {
+            isGameLost = true;
+            StartMenuState();
+        }
         #endregion
 
         #region IStateMachine implementation

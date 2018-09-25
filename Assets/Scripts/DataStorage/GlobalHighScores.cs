@@ -6,5 +6,7 @@ namespace HellStoned.Data
     public class GlobalHighScores 
     {
         public List<int> Scores = new List<int>();
+
+        
     }
 }

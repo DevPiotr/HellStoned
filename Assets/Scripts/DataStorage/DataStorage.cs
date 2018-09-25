@@ -8,12 +8,18 @@ namespace HellStoned.Core {
         private GlobalHighScores _globalHighScores;
         public GlobalHighScores _GlobalHighScores { get { return this._globalHighScores; } }
 
+        /* czysczenie 
+        private void Awake()
+        {
+            _globalHighScores.Scores.Clear();
+        }
+        */
         public void SaveData()
         {
             PlayerPrefs.SetString("HighScores", JsonUtility.ToJson(_globalHighScores));
         }
-     
-        public void setScores(GlobalHighScores scores)
+
+        public void SetScores(GlobalHighScores scores)
         {
             this._globalHighScores = scores;
         }

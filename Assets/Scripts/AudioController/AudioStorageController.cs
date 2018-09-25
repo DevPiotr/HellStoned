@@ -15,5 +15,9 @@ namespace HellStoned.Core
         [SerializeField]
         private AudioSource gettingHit;
         public AudioSource GettingHit { get { return this.gettingHit; } }
+
+        [SerializeField]
+        private AudioSource welcomeToHell;
+        public AudioSource WelcomeToHell { get { return this.welcomeToHell; } }
     }
 }

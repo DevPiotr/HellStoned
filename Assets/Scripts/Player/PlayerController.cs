@@ -58,7 +58,8 @@ namespace HellStoned.Player
 
         private void OnCollisionEnter(Collision collision)
         {
-            if(collision.collider.tag == "Walkable")
+
+            if (collision.collider.tag == "Walkable")
             {
                 isGrounded = true;
                 canGetHit = true;
@@ -69,8 +70,6 @@ namespace HellStoned.Player
                 Destroy(collision.collider.gameObject);
 
                 listener.PlayPickUpSound();
-
-                Debug.Log("PlayerController:: Zebrałeś ziele");
 
                 WeedSmoke.Play();
 
@@ -88,7 +87,6 @@ namespace HellStoned.Player
             }
             if (collision.collider.tag == "Traps")
             {
-                Debug.LogWarning("PlayerController:: U Died");
 
                 if (canGetHit)
                 {
@@ -97,9 +95,26 @@ namespace HellStoned.Player
                     canGetHit = false;
                 }
             }
+
             
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.name == "CanabisTutorialTrigger")
+            {
+
+                listener.SetAndShowTutorialText(TutorialTrigger.Canabis);
+            }
+            if (other.name == "TrapsTutorialTrigger")
+            {
+                listener.SetAndShowTutorialText(TutorialTrigger.Traps);
+            }
+            if (other.name == "EndLevelTutorialTrigger")
+            {
+                listener.SetAndShowTutorialText(TutorialTrigger.EndLevel);
+            }
+        }
         void Start()
         {
             jump = new Vector3(0.0f, 2.0f, 0.0f);
